@@ -1,0 +1,34 @@
+{
+  "name": "pushy-cordova",
+  "version": "1.0.4",
+  "description": "The official Pushy SDK for Cordova apps.",
+  "keywords": [
+    "pushy",
+    "pushy.me",
+    "sdk",
+    "cordova",
+    "phonegap",
+    "ionic",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "platforms": [
+    "android"
+  ],
+  "cordova": {
+    "id": "pushy-cordova",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pushy-me/pushy-cordova.git"
+  },
+  "author": "Pushy <support@pushy.me>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/pushy-me/pushy-cordova/issues"
+  },
+  "homepage": "https://github.com/pushy-me/pushy-cordova#readme"
+}

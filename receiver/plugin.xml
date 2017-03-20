@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pushy-cordova-receiver" version="1.0.0">
+    <name>Pushy SDK Receiver for Cordova</name>
+    <description>A sample push receiver implementation for the Pushy SDK for Cordova.</description>
+    <license>Apache 2.0</license>
+    <keywords>pushy pushy.me sdk android receiver cordova phonegap ionic</keywords>
+    <engines>
+        <engine name="cordova-android" version=">=4.0.0" />
+    </engines>
+    <platform name="android">
+        <!-- Vibrate Permission -->
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.VIBRATE" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <!-- Pushy Notification Receiver -->
+            <receiver android:name="me.pushy.sdk.PushReceiver" android:exported="false">
+                <intent-filter>
+                    <action android:name="pushy.me" />
+                </intent-filter>
+            </receiver>
+        </config-file>
+
+        <!-- Plugin Source Files -->
+        <source-file src="src/android/PushReceiver.java" target-dir="src/me/pushy/sdk" />
+    </platform>
+</plugin>

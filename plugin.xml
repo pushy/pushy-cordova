@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pushy-cordova" version="1.0.4">
+    <name>Pushy SDK for Cordova</name>
+    <description>The official Pushy SDK for Cordova apps.</description>
+    <license>Apache 2.0</license>
+    <keywords>pushy pushy.me sdk cordova phonegap ionic</keywords>
+    <engines>
+        <engine name="cordova-android" version=">=4.0.0" />
+    </engines>
+    <js-module src="www/pushy.js" name="Pushy">
+        <clobbers target="Pushy" />
+    </js-module>
+    <platform name="android">
+        <!-- Pushy SDK -->
+        <framework src="me.pushy:sdk:1.0.24" />
+
+        <!-- Pushy SDK Dependency -->
+		<lib-file src="libs/pushy-jackson.jar"/>
+
+        <!-- Pushy Permissions -->
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        </config-file>
+
+        <!-- Pushy Declarations -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <!-- Pushy Notification Receiver -->
+            <!-- Do not modify - internal BroadcastReceiver that listens for push notifications -->
+            <receiver android:name="me.pushy.sdk.cordova.internal.receivers.PushyPushReceiver" android:exported="false">
+                <intent-filter>
+                    <!-- Do not modify this -->
+                    <action android:name="pushy.me" />
+                </intent-filter>
+            </receiver>
+
+            <!-- Pushy Update Receiver -->
+            <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
+            <receiver android:name="me.pushy.sdk.receivers.PushyUpdateReceiver" android:exported="false">
+                <intent-filter>
+                    <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                    <data android:scheme="package" />
+                </intent-filter>
+            </receiver>
+
+            <!-- Pushy Boot Receiver -->
+            <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
+            <receiver android:name="me.pushy.sdk.receivers.PushyBootReceiver" android:exported="false">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                </intent-filter>
+            </receiver>
+
+            <!-- Pushy Socket Service -->
+            <!-- Do not modify - internal socket service -->
+            <service android:name="me.pushy.sdk.services.PushySocketService"/>
+        </config-file>
+
+        <!-- Pushy Plugin -->
+        <config-file target="config.xml" parent="/*">
+            <feature name="Pushy">
+                <param name="android-package" value="me.pushy.sdk.cordova.internal.PushyPlugin"/>
+            </feature>
+        </config-file>
+
+        <!-- Plugin Source Files -->
+        <source-file src="src/android/PushyPlugin.java" target-dir="src/me/pushy/sdk/cordova/internal" />
+        <source-file src="src/android/util/PushyPersistence.java" target-dir="src/me/pushy/sdk/cordova/internal/util" />
+        <source-file src="src/android/receivers/PushyPushReceiver.java" target-dir="src/me/pushy/sdk/cordova/internal/receivers" />
+    </platform>
+</plugin>
