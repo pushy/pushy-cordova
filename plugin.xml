@@ -7,7 +7,7 @@
     <engines>
         <engine name="cordova-android" version=">=4.0.0" />
     </engines>
-    <js-module src="www/pushy.js" name="Pushy">
+    <js-module src="www/Pushy.js" name="Pushy">
         <clobbers target="Pushy" />
     </js-module>
     <platform name="android">
