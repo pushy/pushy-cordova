@@ -12,10 +12,7 @@
     </js-module>
     <platform name="android">
         <!-- Pushy SDK -->
-        <framework src="me.pushy:sdk:1.0.24" />
-
-        <!-- Pushy SDK Dependency -->
-		<lib-file src="libs/pushy-jackson.jar"/>
+        <framework src="me.pushy:sdk:1.0.27" />
 
         <!-- Pushy Permissions -->
         <config-file target="AndroidManifest.xml" parent="/*">
