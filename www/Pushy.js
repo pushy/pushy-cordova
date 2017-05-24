@@ -28,7 +28,11 @@ var actions = [
 ];
 
 // Expose native actions
-for (var action of actions) {
+for (var i in actions) {
+    // Get action by index
+    var action = actions[i];
+
+    // Expose action to JS code
     exports[action.name] = executeNativeAction(action);
 }
 
