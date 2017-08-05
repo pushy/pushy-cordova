@@ -68,4 +68,20 @@
         <source-file src="src/android/util/PushyPersistence.java" target-dir="src/me/pushy/sdk/cordova/internal/util" />
         <source-file src="src/android/receivers/PushyPushReceiver.java" target-dir="src/me/pushy/sdk/cordova/internal/receivers" />
     </platform>
+    
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+			<feature name="PushyNotificationPlugin">
+				<param name="ios-package" value="PushyNotificationPlugin" />
+			</feature>
+        </config-file>
+        
+		<header-file src="src/ios/AppDelegate+pushyNotificationPlugin.h" />		
+        <source-file src="src/ios/AppDelegate+pushyNotificationPlugin.m" />
+		
+		<header-file src="src/ios/PushyNotificationPlugin.h" />
+        <source-file src="src/ios/PushyNotificationPlugin.m" />
+	    <framework src="Pushy" type="podspec" spec="~>1.0.4"/>
+        
+    </platform>
 </plugin>
