@@ -11,16 +11,13 @@ Please refer to our [detailed documentation](https://pushy.me/docs/additional-pl
 
 ## iOS
 
-Adding the plugin :
-
-
 Manually Adding the plugin :
 
 Once you have downloaded the plugin and unzipped it, you can install the plugin manually, using the below command,
 
 cordova plugin add ~/Downloads/cordova-pushy
 
-Please refer to our [detailed documentation](PUSHY.ME iOS Integration.pdf)
+Please refer to our [detailed documentation](https://github.com/SreenivasR/pushy-cordova/blob/master/PUSHY.ME%20iOS%20Integration.pdf) to get started.
 
 ## License
 
