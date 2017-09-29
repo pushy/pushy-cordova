@@ -14,6 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
+
 import me.pushy.sdk.Pushy;
 import me.pushy.sdk.config.PushyLogging;
 import me.pushy.sdk.cordova.internal.util.PushyPersistence;
@@ -115,13 +117,19 @@ public class PushyPlugin extends CordovaPlugin {
     }
 
     private void requestStoragePermission() {
-        // Check if the app has already been granted permission
-        if (cordova.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            return;
-        }
+        // Request permission method
+        Method requestPermission;
 
-        // Request the permission via user-friendly dialog
-        cordova.requestPermission(this, 0, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        try {
+            // Get method reference via reflection (to support Cordova Android 4.0)
+            requestPermission = CordovaInterface.class.getMethod("requestPermission", CordovaPlugin.class, int.class, String.class);
+
+            // Request the permission via user-friendly dialog
+            requestPermission.invoke(cordova, this, 0, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        } catch (Exception e) {
+            // Log error
+            Log.d(PushyLogging.TAG, "Failed to request WRITE_EXTERNAL_STORAGE permission", e);
+        }
     }
 
     private boolean isActivityRunning() {
