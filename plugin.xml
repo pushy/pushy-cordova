@@ -12,7 +12,7 @@
     </js-module>
     <platform name="android">
         <!-- Pushy SDK -->
-        <framework src="me.pushy:sdk:1.0.28" />
+        <framework src="me.pushy:sdk:1.0.31" />
 
         <!-- Pushy Permissions -->
         <config-file target="AndroidManifest.xml" parent="/*">
