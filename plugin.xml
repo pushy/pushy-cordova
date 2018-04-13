@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pushy-cordova" version="1.0.4">
-    <name>Pushy SDK for Cordova</name>
+    <name>PushySDK</name>
     <description>The official Pushy SDK for Cordova apps.</description>
     <license>Apache 2.0</license>
     <keywords>pushy pushy.me sdk cordova phonegap ionic</keywords>
+
+    <!-- Supported Platforms -->
     <engines>
+        <engine name="cordova-ios" version=">=4.3.0" />
         <engine name="cordova-android" version=">=4.0.0" />
     </engines>
+
+    <!-- Pushy JS Module -->
     <js-module src="www/Pushy.js" name="Pushy">
         <clobbers target="Pushy" />
     </js-module>
+
+    <!-- iOS -->
+    <platform name="ios">
+        <!-- iOS Package -->
+        <config-file target="config.xml" parent="/*">
+            <feature name="PushyPlugin">
+                <param name="ios-package" value="PushyPlugin"/>
+            </feature>
+        </config-file>
+
+        <!-- Cordova Swift Support -->
+        <dependency id="cordova-plugin-add-swift-support" version="1.7.2"/>
+
+        <!-- Pushy Cordova Plugin -->
+        <source-file src="src/ios/PushyPlugin.swift" />
+
+        <!-- Pushy iOS SDK Source Files -->
+        <!-- The official Pushy iOS SDK pod cannot be referenced directly due to lack of support from Cordova -->
+        <source-file src="src/ios/Pushy.swift" />
+        <source-file src="src/ios/PushyConfig.swift" />
+        <source-file src="src/ios/PushyEnvironment.swift" />
+        <source-file src="src/ios/PushyHTTP.swift" />
+        <source-file src="src/ios/PushyKeychain.swift" />
+        <source-file src="src/ios/PushyNetworkException.swift" />
+        <source-file src="src/ios/PushyPubSubException.swift" />
+        <source-file src="src/ios/PushyRegistrationException.swift" />
+        <source-file src="src/ios/PushyResponseException.swift" />
+        <source-file src="src/ios/PushySettings.swift" />
+        <source-file src="src/ios/PushySwizzler.swift" />
+
+        <!-- APS environment injection -->
+        <config-file target="*-Debug.plist" parent="aps-environment">
+            <string>development</string>
+        </config-file>
+        <config-file target="*-Release.plist" parent="aps-environment">
+            <string>production</string>
+        </config-file>
+    </platform>
+
+    <!-- Android -->
     <platform name="android">
         <!-- Pushy SDK -->
         <framework src="me.pushy:sdk:1.0.31" />

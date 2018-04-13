@@ -1,29 +1,42 @@
 var cordova = require('cordova');
 
+// Native class names by platform
+var nativeClassNames = {
+    android: 'Pushy',
+    ios: 'PushyPlugin'
+};
+
 // Native action names
 var actions = [
     {
-        name: 'listen'
+        name: 'listen',
+        platforms: ['android']
     },
     {
-        name: 'register'
+        name: 'register',
+        platforms: ['android', 'ios']
     },
     {
-        name: 'subscribe'
+        name: 'subscribe',
+        platforms: ['android', 'ios']
     },
     {
-        name: 'unsubscribe'
+        name: 'unsubscribe',
+        platforms: ['android', 'ios']
     },
     {
-        name: 'requestStoragePermission'
+        name: 'requestStoragePermission',
+        platforms: ['android']
     },
     {
         name: 'isRegistered',
-        noError: true
+        noError: true,
+        platforms: ['android', 'ios']
     },
     {
         name: 'setNotificationListener',
-        noError: true
+        noError: true,
+        platforms: ['android', 'ios']
     }
 ];
 
@@ -37,6 +50,10 @@ for (var i in actions) {
 }
 
 function executeNativeAction(action) {
+    // Get platform name dynamically
+    var platform = cordova.platformId;
+
+    // Return custom function
     return function () {
         var callback;
 
@@ -50,6 +67,12 @@ function executeNativeAction(action) {
 
             // Remove callback from arguments list
             args.splice(args.length - 1, 1);
+        }
+
+        // Action not intended for this platform?
+        if (action.platforms.indexOf(platform) === -1) {
+            // Invoke success callback immediately if passed, otherwise do nothing
+            return callback ? callback() : null;
         }
 
         // If action succeeds
@@ -73,6 +96,6 @@ function executeNativeAction(action) {
         };
 
         // Execute native plugin function by name
-        cordova.exec(successCallback, errorCallback, 'Pushy', action.name, args);
+        cordova.exec(successCallback, errorCallback, nativeClassNames[platform], action.name, args);
     };
 }
