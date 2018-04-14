@@ -10,14 +10,17 @@
     "phonegap",
     "ionic",
     "ecosystem:cordova",
+    "cordova-ios",
     "cordova-android"
   ],
   "platforms": [
+    "ios",
     "android"
   ],
   "cordova": {
     "id": "pushy-cordova",
     "platforms": [
+      "ios",
       "android"
     ]
   },
