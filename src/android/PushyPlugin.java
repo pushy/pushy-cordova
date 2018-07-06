@@ -72,6 +72,11 @@ public class PushyPlugin extends CordovaPlugin {
                 // Unsubscribe device from topic
                 if (action.equals("unsubscribe")) {
                     unsubscribe(args, callbackContext);
+                }   
+
+                // Pushy Enterprise support
+                if (action.equals("setEnterpriseConfig")) {
+                    setEnterpriseConfig(args, callbackContext);
                 }
             }
         });
@@ -175,6 +180,20 @@ public class PushyPlugin extends CordovaPlugin {
     private void isRegistered(CallbackContext callback) {
         // Resolve the callback with boolean result
         callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, Pushy.isRegistered(cordova.getActivity())));
+    }
+
+    private void setEnterpriseConfig(JSONArray args, CallbackContext callback) {
+        try {
+            // Attempt to set Enterprise endpoints
+            Pushy.setEnterpriseConfig(args.getString(0), args.getString(1), cordova.getActivity());
+
+            // Resolve the callback with success
+            callback.success();
+        }
+        catch (Exception exc) {
+            // Reject the callback with the exception
+            callback.error(exc.getMessage());
+        }
     }
 
     private void subscribe(JSONArray args, CallbackContext callback) {

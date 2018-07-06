@@ -37,6 +37,12 @@ var actions = [
         name: 'setNotificationListener',
         noError: true,
         platforms: ['android', 'ios']
+    },
+    {
+        name: 'setEnterpriseConfig',
+        noError: true,
+        noCallback: true,
+        platforms: ['android', 'ios']
     }
 ];
 
@@ -61,7 +67,7 @@ function executeNativeAction(action) {
         var args = [].slice.apply(arguments);
 
         // At least one argument provided?
-        if (args.length > 0) {
+        if (args.length > 0 && !action.noCallback) {
             // Callback should be last argument
             callback = args[args.length - 1];
 
