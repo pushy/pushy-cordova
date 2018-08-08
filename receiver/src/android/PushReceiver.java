@@ -10,9 +10,6 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.util.Log;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-
 public class PushReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,10 +35,8 @@ public class PushReceiver extends BroadcastReceiver {
         // Get an instance of the NotificationManager service
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
-        // Device is Android O or newer?
-        if (Build.VERSION.SDK_INT >= 26) {
-            configureNotificationChannel(builder, notificationManager);
-        }
+        // Automatically configure a Notification Channel for devices running Android O+
+        Pushy.setNotificationChannel(builder, context);
 
         // Build the notification and display it
         notificationManager.notify(1, builder.build());
@@ -61,43 +56,5 @@ public class PushReceiver extends BroadcastReceiver {
 
         // Convert intent into pending intent
         return PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private void configureNotificationChannel(Notification.Builder builder, NotificationManager notificationManager) {
-        // Channel details
-        String channelId = "pushy";
-        String channelName = "Push Notifications";
-
-        // Channel importance (4 means high importance)
-        int channelImportance = 4;
-
-        try {
-            // Get NotificationChannel class via reflection (only available on API level 26+)
-            Class notificationChannelClass = Class.forName("android.app.NotificationChannel");
-
-            // Get NotificationChannel constructor
-            Constructor<?> notificationChannelConstructor = notificationChannelClass.getDeclaredConstructor(String.class, CharSequence.class, int.class);
-
-            // Instantiate new notification channel
-            Object notificationChannel = notificationChannelConstructor.newInstance(channelId, channelName, channelImportance);
-
-            // Get notification channel creation method via reflection
-            Method createNotificationChannelMethod = notificationManager.getClass().getDeclaredMethod("createNotificationChannel", notificationChannelClass);
-
-            // Invoke method on NotificationManager, passing in the channel object
-            createNotificationChannelMethod.invoke(notificationManager, notificationChannel);
-
-            // Get "setChannelId" method for Notification.Builder (only for AppCompat v26+)
-            Method setChannelIdMethod = builder.getClass().getDeclaredMethod("setChannelId", String.class);
-
-            // Invoke method, passing in the channel ID
-            setChannelIdMethod.invoke(builder, channelId);
-
-            // Log success to console
-            Log.d("Pushy", "Notification channel set successfully");
-        } catch (Exception exc) {
-            // Log exception to console
-            Log.e("Pushy", "Creating notification channel failed", exc);
-        }
     }
 }
