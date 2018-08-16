@@ -1,14 +1,15 @@
 package me.pushy.sdk;
 
-import android.os.Build;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
+import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
-import android.util.Log;
+
+import me.pushy.sdk.cordova.internal.util.PushyPersistence;
 
 public class PushReceiver extends BroadcastReceiver {
     @Override
@@ -28,7 +29,7 @@ public class PushReceiver extends BroadcastReceiver {
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationText)
                 .setVibrate(new long[]{0, 400, 250, 400})
-                .setSmallIcon(context.getApplicationInfo().icon)
+                .setSmallIcon(getNotificationIcon(context))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(getMainActivityPendingIntent(context));
 
@@ -40,6 +41,39 @@ public class PushReceiver extends BroadcastReceiver {
 
         // Build the notification and display it
         notificationManager.notify(1, builder.build());
+    }
+
+    private int getNotificationIcon(Context context) {
+        // Attempt to fetch icon name from SharedPreferences
+        String icon = PushyPersistence.getNotificationIcon(context);
+
+        // Did we configure a custom icon?
+        if (icon != null) {
+            // Cache app resources
+            Resources resources = context.getResources();
+
+            // Cache app package name
+            String packageName = context.getPackageName();
+
+            // Look for icon in drawable folders
+            int iconId = resources.getIdentifier(icon, "drawable", packageName);
+
+            // Found it?
+            if (iconId != 0) {
+                return iconId;
+            }
+
+            // Look for icon in mipmap folders
+            iconId = resources.getIdentifier(icon, "mipmap", packageName);
+
+            // Found it?
+            if (iconId != 0) {
+                return iconId;
+            }
+        }
+
+        // Fallback to app icon
+        return context.getApplicationInfo().icon;
     }
 
     private static String getAppName(Context context) {

@@ -13,6 +13,7 @@ import me.pushy.sdk.config.PushyLogging;
 import me.pushy.sdk.util.PushySingleton;
 
 public class PushyPersistence {
+    public static final String NOTIFICATION_ICON = "pushyNotificationIcon";
     public static final String PENDING_NOTIFICATIONS = "pushyPendingNotifications";
 
     private static SharedPreferences getSettings(Context context) {
@@ -29,6 +30,16 @@ public class PushyPersistence {
 
         // Store notification JSON array in SharedPreferences
         getSettings(context).edit().putString(PushyPersistence.PENDING_NOTIFICATIONS, pendingNotifications.toString()).commit();
+    }
+
+    public static void setNotificationIcon(String icon, Context context) {
+        // Store notification icon in SharedPreferences
+        getSettings(context).edit().putString(PushyPersistence.NOTIFICATION_ICON, icon).commit();
+    }
+
+    public static String getNotificationIcon( Context context) {
+        // Get notification icon from SharedPreferences
+        return getSettings(context).getString(PushyPersistence.NOTIFICATION_ICON, null);
     }
 
     public static JSONArray getPendingNotifications(Context context) {

@@ -72,11 +72,16 @@ public class PushyPlugin extends CordovaPlugin {
                 // Unsubscribe device from topic
                 if (action.equals("unsubscribe")) {
                     unsubscribe(args, callbackContext);
-                }   
+                }
 
                 // Pushy Enterprise support
                 if (action.equals("setEnterpriseConfig")) {
                     setEnterpriseConfig(args, callbackContext);
+                }
+
+                // Custom icon support
+                if (action.equals("setNotificationIcon")) {
+                    setNotificationIcon(args);
                 }
             }
         });
@@ -194,6 +199,20 @@ public class PushyPlugin extends CordovaPlugin {
             // Reject the callback with the exception
             callback.error(exc.getMessage());
         }
+    }
+
+    private void setNotificationIcon(JSONArray args) {
+        String iconResourceName;
+
+        try {
+            // Attempt to get icon resource name from first parameter
+            iconResourceName = args.getString(0);
+        } catch (JSONException e) {
+            return;
+        }
+
+        // Store in SharedPreferences using PushyPersistence helper
+        PushyPersistence.setNotificationIcon(iconResourceName, cordova.getActivity());
     }
 
     private void subscribe(JSONArray args, CallbackContext callback) {
