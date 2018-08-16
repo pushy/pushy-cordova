@@ -72,8 +72,8 @@ public class PushReceiver extends BroadcastReceiver {
             }
         }
 
-        // Fallback to app icon
-        return context.getApplicationInfo().icon;
+        // Fallback to generic icon
+        return android.R.drawable.ic_dialog_info;
     }
 
     private static String getAppName(Context context) {
