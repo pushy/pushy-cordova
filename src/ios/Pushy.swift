@@ -35,6 +35,9 @@ public class Pushy : NSObject {
     public func setNotificationHandler(_ notificationHandler: @escaping ([AnyHashable : Any], @escaping ((UIBackgroundFetchResult) -> Void)) -> Void) {
         // Save the handler for later
         self.notificationHandler = notificationHandler
+
+        // Swizzle didReceiveRemoteNotification method to listen for notifications
+        PushySwizzler.swizzleMethodImplementations(self.appDelegate.superclass!, "application:didReceiveRemoteNotification:fetchCompletionHandler:")
     }
     
     // Register for push notifications (called from AppDelegate.didFinishLaunchingWithOptions)
@@ -45,12 +48,11 @@ public class Pushy : NSObject {
         // Swizzle methods (will call method with same selector in Pushy class)
         PushySwizzler.swizzleMethodImplementations(self.appDelegate.superclass!, "application:didRegisterForRemoteNotificationsWithDeviceToken:")
         PushySwizzler.swizzleMethodImplementations(self.appDelegate.superclass!, "application:didFailToRegisterForRemoteNotificationsWithError:")
-        PushySwizzler.swizzleMethodImplementations(self.appDelegate.superclass!, "application:didReceiveRemoteNotification:fetchCompletionHandler:")
         
         // Request an APNs token from Apple
         requestAPNsToken(self.application)
     }
-    
+
     // Backwards-compatible method for requesting an APNs token from Apple
     private func requestAPNsToken(_ application: UIApplication) {
         // iOS 10 support

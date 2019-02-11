@@ -22,6 +22,7 @@
         <config-file target="config.xml" parent="/*">
             <feature name="PushyPlugin">
                 <param name="ios-package" value="PushyPlugin"/>
+                <param name="onload" value="true" />
             </feature>
         </config-file>
 
