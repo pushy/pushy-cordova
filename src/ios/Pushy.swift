@@ -36,8 +36,12 @@ public class Pushy : NSObject {
         // Save the handler for later
         self.notificationHandler = notificationHandler
 
-        // Swizzle didReceiveRemoteNotification method to listen for notifications
+        // Swizzle didReceiveRemoteNotification method
         PushySwizzler.swizzleMethodImplementations(self.appDelegate.superclass!, "application:didReceiveRemoteNotification:fetchCompletionHandler:")
+    }
+    
+    public func getNotificationHandler() -> (([AnyHashable : Any], @escaping ((UIBackgroundFetchResult) -> Void)) -> Void)? {
+        return self.notificationHandler
     }
     
     // Register for push notifications (called from AppDelegate.didFinishLaunchingWithOptions)
