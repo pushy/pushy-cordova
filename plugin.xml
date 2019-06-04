@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pushy-cordova" version="1.0.25">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="pushy-cordova" version="1.0.25-alpha">
     <name>PushySDK</name>
     <description>The official Pushy SDK for Cordova apps.</description>
     <license>Apache 2.0</license>
@@ -58,7 +58,7 @@
     <!-- Android -->
     <platform name="android">
         <!-- Pushy SDK -->
-        <framework src="me.pushy:sdk:1.0.40" />
+        <framework src="me.pushy:sdk:1.0.48" />
 
         <!-- Pushy Permissions -->
         <config-file target="AndroidManifest.xml" parent="/*">
@@ -119,4 +119,6 @@
         <source-file src="src/android/util/PushyPersistence.java" target-dir="src/me/pushy/sdk/cordova/internal/util" />
         <source-file src="src/android/receivers/PushyPushReceiver.java" target-dir="src/me/pushy/sdk/cordova/internal/receivers" />
     </platform>
+
+    <hook src="scripts/after_prepare.js" type="after_prepare"/>
 </plugin>

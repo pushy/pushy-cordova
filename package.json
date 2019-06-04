@@ -1,6 +1,6 @@
 {
   "name": "pushy-cordova",
-  "version": "1.0.25",
+  "version": "1.0.26-alpha",
   "description": "The official Pushy SDK for Cordova apps.",
   "keywords": [
     "pushy",

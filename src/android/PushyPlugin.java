@@ -79,6 +79,11 @@ public class PushyPlugin extends CordovaPlugin {
                     setEnterpriseConfig(args, callbackContext);
                 }
 
+                // Pushy custom certificate
+                if (action.equals("setEnterpriseCertificate")) {
+                    setEnterpriseCertificate(args, callbackContext);
+                }
+
                 // Custom icon support
                 if (action.equals("setNotificationIcon")) {
                     setNotificationIcon(args);
@@ -197,6 +202,20 @@ public class PushyPlugin extends CordovaPlugin {
         }
         catch (Exception exc) {
             // Reject the callback with the exception
+            callback.error(exc.getMessage());
+        }
+    }
+
+    private void setEnterpriseCertificate(JSONArray args, CallbackContext callback) {
+        try {
+            // Attempt to set Custom certificate
+            Pushy.setEnterpriseCertificate(args.getString(0), cordova.getActivity());
+
+            // Resolve the callback with success
+            callback.success();
+        }
+        catch (Exception exc) {
+            // Reject the callback with the expection
             callback.error(exc.getMessage());
         }
     }
