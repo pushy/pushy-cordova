@@ -45,6 +45,12 @@ var actions = [
         platforms: ['android', 'ios']
     },
     {
+        name: 'setEnterpriseCertificate',
+        noError: true,
+        noCallback: true,
+        platforms: ['android']
+    },
+    {
         name: 'setNotificationIcon',
         noError: true,
         noCallback: true,
