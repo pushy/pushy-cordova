@@ -27,7 +27,7 @@
         </config-file>
 
         <!-- Cordova Swift Support -->
-        <dependency id="cordova-plugin-add-swift-support" version="1.7.2"/>
+        <dependency id="cordova-plugin-add-swift-support" version="2.0.2"/>
 
         <!-- Pushy Cordova Plugin -->
         <source-file src="src/ios/PushyPlugin.swift" />
