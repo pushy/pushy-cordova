@@ -410,8 +410,17 @@ public class Pushy : NSObject {
     
     // Device received notification
     @objc public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // Make userInfo mutable
+        var pushPayload = userInfo;
+        
+        // Notification clicked?
+        if (application.applicationState == UIApplicationState.inactive) {
+            // Set flag for invoking click listener
+            pushPayload["_pushyNotificationClicked"] = true;
+        }
+        
         // Call the notification handler, if defined
-        Pushy.shared?.notificationHandler?(userInfo, completionHandler)
+        Pushy.shared?.notificationHandler?(pushPayload, completionHandler)
     }
 }
 

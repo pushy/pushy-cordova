@@ -117,6 +117,7 @@
         <!-- Plugin Source Files -->
         <source-file src="src/android/PushyPlugin.java" target-dir="src/me/pushy/sdk/cordova/internal" />
         <source-file src="src/android/util/PushyPersistence.java" target-dir="src/me/pushy/sdk/cordova/internal/util" />
+        <source-file src="src/android/config/PushyIntentExtras.java" target-dir="src/me/pushy/sdk/cordova/internal/config" />
         <source-file src="src/android/receivers/PushyPushReceiver.java" target-dir="src/me/pushy/sdk/cordova/internal/receivers" />
     </platform>
 </plugin>

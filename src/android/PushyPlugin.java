@@ -3,6 +3,7 @@ package me.pushy.sdk.cordova.internal;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
@@ -18,12 +19,15 @@ import java.lang.reflect.Method;
 
 import me.pushy.sdk.Pushy;
 import me.pushy.sdk.config.PushyLogging;
+import me.pushy.sdk.cordova.internal.config.PushyIntentExtras;
 import me.pushy.sdk.cordova.internal.util.PushyPersistence;
+import me.pushy.sdk.util.PushyStringUtils;
 import me.pushy.sdk.util.exceptions.PushyException;
 
 public class PushyPlugin extends CordovaPlugin {
     private static PushyPlugin mInstance;
     private CallbackContext mNotificationHandler;
+    private CallbackContext mNotificationClickHandler;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -49,9 +53,14 @@ public class PushyPlugin extends CordovaPlugin {
                     register(callbackContext);
                 }
 
-                // Listen for notifications
+                // Listen for notifications received
                 if (action.equals("setNotificationListener")) {
                     setNotificationListener(callbackContext);
+                }
+
+                // Listen for notifications clicked
+                if (action.equals("setNotificationClickListener")) {
+                    setNotificationClickListener(callbackContext);
                 }
 
                 // Request WRITE_EXTERNAL_STORAGE permission
@@ -101,6 +110,27 @@ public class PushyPlugin extends CordovaPlugin {
 
         // Attempt to deliver any pending notifications
         deliverPendingNotifications();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // Handle notification click
+        onNotificationClicked(intent);
+    }
+
+    private void setNotificationClickListener(CallbackContext callbackContext) {
+        // Save notification click listener callback for later
+        mNotificationClickHandler = callbackContext;
+
+        // Attempt to check whether pending notifications
+        Intent activityIntent = cordova.getActivity().getIntent();
+
+        // Check whether notification was clicked
+        if (activityIntent.getBooleanExtra(PushyIntentExtras.NOTIFICATION_CLICKED, false)) {
+            onNotificationClicked(cordova.getActivity().getIntent());
+        }
     }
 
     private void deliverPendingNotifications() {
@@ -171,6 +201,48 @@ public class PushyPlugin extends CordovaPlugin {
 
         // Invoke the JavaScript callback
         mInstance.mNotificationHandler.sendPluginResult(pluginResult);
+    }
+
+    public static void onNotificationClicked(Intent intent) {
+        // Activity is not running or no notification click handler defined?
+        if (mInstance == null || !mInstance.isActivityRunning() || mInstance.mNotificationClickHandler == null) {
+            return;
+        }
+
+        // Not a Pushy notification?
+        if (!intent.getBooleanExtra(PushyIntentExtras.NOTIFICATION_CLICKED, false) ) {
+            return;
+        }
+
+        // Attempt to extract stringified JSON payload
+        String payload = intent.getStringExtra(PushyIntentExtras.NOTIFICATION_PAYLOAD);
+
+        // No payload?
+        if (PushyStringUtils.stringIsNullOrEmpty(payload)) {
+            return;
+        }
+
+        // Notification payload object
+        JSONObject notification;
+
+        try {
+            // Gracefully attempt to parse it back into JSONObject
+            notification = new JSONObject(payload);
+        }
+        catch (Exception e) {
+            // Log error to logcat and stop execution
+            Log.e(PushyLogging.TAG, "Failed to parse notification click data into JSONObject:" + e.getMessage(), e);
+            return;
+        }
+
+        // We're live, prepare a plugin result object that allows invoking the notification click listener multiple times
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, notification);
+
+        // Keep the callback valid for future use
+        pluginResult.setKeepCallback(true);
+
+        // Invoke the JavaScript callback
+        mInstance.mNotificationClickHandler.sendPluginResult(pluginResult);
     }
 
     private void register(final CallbackContext callback) {

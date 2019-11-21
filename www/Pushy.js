@@ -39,6 +39,11 @@ var actions = [
         platforms: ['android', 'ios']
     },
     {
+        name: 'setNotificationClickListener',
+        noError: true,
+        platforms: ['android', 'ios']
+    },
+    {
         name: 'setEnterpriseConfig',
         noError: true,
         noCallback: true,
