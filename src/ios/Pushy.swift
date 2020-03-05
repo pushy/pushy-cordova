@@ -414,7 +414,7 @@ public class Pushy : NSObject {
         var pushPayload = userInfo;
         
         // Notification clicked?
-        if (application.applicationState == UIApplicationState.inactive) {
+        if (application.applicationState == UIApplication.State.inactive) {
             // Set flag for invoking click listener
             pushPayload["_pushyNotificationClicked"] = true;
         }
