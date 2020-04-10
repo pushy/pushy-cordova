@@ -83,6 +83,9 @@ public class PushReceiver extends BroadcastReceiver {
     }
 
     private PendingIntent getMainActivityPendingIntent(Context context, Intent receiverIntent) {
+        // Convert intent extras to JSON
+        String json = PushyPersistence.getJSONObjectFromIntentExtras(receiverIntent).toString();
+
         // Get launcher activity intent
         Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
 
@@ -91,9 +94,9 @@ public class PushReceiver extends BroadcastReceiver {
 
         // Pass payload data into PendingIntent
         launchIntent.putExtra(PushyIntentExtras.NOTIFICATION_CLICKED, true);
-        launchIntent.putExtra(PushyIntentExtras.NOTIFICATION_PAYLOAD, PushyPersistence.getJSONObjectFromIntentExtras(receiverIntent).toString());
+        launchIntent.putExtra(PushyIntentExtras.NOTIFICATION_PAYLOAD, json);
 
         // Convert intent into pending intent
-        return PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(context, json.hashCode(), launchIntent, PendingIntent.FLAG_IMMUTABLE);
     }
 }
