@@ -217,4 +217,18 @@
             callbackId: command.callbackId
         )
     }
+
+    @objc(clearBadge:)
+    func clearBadge(command: CDVInvokedUrlCommand) {
+        // Clear app badge
+        UIApplication.shared.applicationIconBadgeNumber = 0;
+        
+        // Always success
+        self.commandDelegate!.send(
+            CDVPluginResult(
+                status: CDVCommandStatus_OK
+            ),
+            callbackId: command.callbackId
+        )
+    }
 }
