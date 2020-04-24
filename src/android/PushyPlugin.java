@@ -97,6 +97,11 @@ public class PushyPlugin extends CordovaPlugin {
                 if (action.equals("setNotificationIcon")) {
                     setNotificationIcon(args);
                 }
+
+                // Pushy FCM high-priority fallback support
+                if (action.equals("toggleFCM")) {
+                    toggleFCM(args, callbackContext);
+                }
             }
         });
 
@@ -268,6 +273,20 @@ public class PushyPlugin extends CordovaPlugin {
         try {
             // Attempt to set Enterprise endpoints
             Pushy.setEnterpriseConfig(args.getString(0), args.getString(1), cordova.getActivity());
+
+            // Resolve the callback with success
+            callback.success();
+        }
+        catch (Exception exc) {
+            // Reject the callback with the exception
+            callback.error(exc.getMessage());
+        }
+    }
+
+    private void toggleFCM(JSONArray args, CallbackContext callback) {
+        try {
+            // Enable or disable FCM fallback support
+            Pushy.toggleFCM(args.getBoolean(0), cordova.getActivity());
 
             // Resolve the callback with success
             callback.success();

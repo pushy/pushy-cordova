@@ -25,6 +25,10 @@ var actions = [
         platforms: ['android', 'ios']
     },
     {
+        name: 'toggleFCM',
+        platforms: ['android']
+    },
+    {
         name: 'requestStoragePermission',
         platforms: ['android']
     },
