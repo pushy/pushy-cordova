@@ -26,6 +26,8 @@ var actions = [
     },
     {
         name: 'toggleFCM',
+        noError: true,
+        noCallback: true,
         platforms: ['android']
     },
     {
