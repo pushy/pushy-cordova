@@ -36,6 +36,9 @@ public class Pushy : NSObject {
         // Save the handler for later
         self.notificationHandler = notificationHandler
 
+        // Disable Capacitor/Cordova UNUserNotificationCenterDelegate
+        UNUserNotificationCenter.current().delegate = nil
+        
         // Swizzle didReceiveRemoteNotification method
         PushySwizzler.swizzleMethodImplementations(type(of: self.appDelegate), "application:didReceiveRemoteNotification:fetchCompletionHandler:")
     }
