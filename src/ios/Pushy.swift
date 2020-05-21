@@ -387,7 +387,7 @@ public class Pushy : NSObject {
         let token = PushySettings.getString(PushySettings.pushyToken)
         
         // Check for existance of non-nil token
-        return token != nil;
+        return token != nil
     }
     
     // API endpoint getter function
@@ -414,12 +414,12 @@ public class Pushy : NSObject {
     // Device received notification
     @objc public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Make userInfo mutable
-        var pushPayload = userInfo;
+        var pushPayload = userInfo
         
         // Notification clicked?
         if (application.applicationState == UIApplication.State.inactive) {
             // Set flag for invoking click listener
-            pushPayload["_pushyNotificationClicked"] = true;
+            pushPayload["_pushyNotificationClicked"] = true
         }
         
         // Call the notification handler, if defined
