@@ -58,7 +58,7 @@
     <!-- Android -->
     <platform name="android">
         <!-- Pushy SDK -->
-        <framework src="me.pushy:sdk:1.0.55" />
+        <framework src="me.pushy:sdk:1.0.56" />
 
         <!-- Pushy Permissions -->
         <config-file target="AndroidManifest.xml" parent="/*">
