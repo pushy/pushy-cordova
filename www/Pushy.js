@@ -40,6 +40,10 @@ var actions = [
         platforms: ['android', 'ios']
     },
     {
+        name: 'unregister',
+        platforms: ['android']
+    },
+    {
         name: 'setNotificationListener',
         noError: true,
         platforms: ['android', 'ios']

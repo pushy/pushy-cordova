@@ -73,6 +73,11 @@ public class PushyPlugin extends CordovaPlugin {
                     isRegistered(callbackContext);
                 }
 
+                // Unregister a device
+                if (action.equals("unregister")) {
+                    Pushy.unregister(cordova.getActivity());
+                }
+
                 // Subscribe device to topic
                 if (action.equals("subscribe")) {
                     subscribe(args, callbackContext);
