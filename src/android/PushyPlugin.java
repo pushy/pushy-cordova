@@ -63,11 +63,6 @@ public class PushyPlugin extends CordovaPlugin {
                     setNotificationClickListener(callbackContext);
                 }
 
-                // Request WRITE_EXTERNAL_STORAGE permission
-                if (action.equals("requestStoragePermission")) {
-                    requestStoragePermission();
-                }
-
                 // Check if device is registered
                 if (action.equals("isRegistered")) {
                     isRegistered(callbackContext);
@@ -168,22 +163,6 @@ public class PushyPlugin extends CordovaPlugin {
 
             // Clear persisted notifications
             PushyPersistence.clearPendingNotifications(cordova.getActivity());
-        }
-    }
-
-    private void requestStoragePermission() {
-        // Request permission method
-        Method requestPermission;
-
-        try {
-            // Get method reference via reflection (to support Cordova Android 4.0)
-            requestPermission = CordovaInterface.class.getMethod("requestPermission", CordovaPlugin.class, int.class, String.class);
-
-            // Request the permission via user-friendly dialog
-            requestPermission.invoke(cordova, this, 0, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        } catch (Exception e) {
-            // Log error
-            Log.d(PushyLogging.TAG, "Failed to request WRITE_EXTERNAL_STORAGE permission", e);
         }
     }
 

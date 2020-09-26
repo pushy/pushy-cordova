@@ -31,6 +31,7 @@ var actions = [
         platforms: ['android']
     },
     {
+        // Leave for backward compatibility
         name: 'requestStoragePermission',
         platforms: ['android']
     },
