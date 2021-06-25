@@ -218,6 +218,20 @@
         )
     }
 
+    @objc(setBadge:)
+    func setBadge(command: CDVInvokedUrlCommand) {
+        // Set app badge to specific number
+        UIApplication.shared.applicationIconBadgeNumber = command.arguments[0] as! Int;
+        
+        // Always success
+        self.commandDelegate!.send(
+            CDVPluginResult(
+                status: CDVCommandStatus_OK
+            ),
+            callbackId: command.callbackId
+        )
+    }
+
     @objc(clearBadge:)
     func clearBadge(command: CDVInvokedUrlCommand) {
         // Clear app badge
