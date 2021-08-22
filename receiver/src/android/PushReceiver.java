@@ -24,6 +24,11 @@ public class PushReceiver extends BroadcastReceiver {
             notificationText = intent.getStringExtra("message");
         }
 
+        // Attempt to extract the notification title from the "title" property of the data payload (defaults to the app name if not present)
+        if (intent.getStringExtra("title") != null) {
+            notificationTitle = intent.getStringExtra("title");
+        }
+
         // Prepare a notification with vibration and sound
         Notification.Builder builder = new Notification.Builder(context)
                 .setAutoCancel(true)
