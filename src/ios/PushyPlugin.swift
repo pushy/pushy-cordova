@@ -109,7 +109,7 @@ import UserNotifications
             )
             
             // Notification clicked?
-            if data["_pushyNotificationClicked"] != nil {
+            if (UIApplication.shared.applicationState == UIApplication.State.inactive) {
                 self.onNotificationClicked(data: data)
             }
             
