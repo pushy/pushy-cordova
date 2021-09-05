@@ -18,6 +18,16 @@
 
     <!-- iOS -->
     <platform name="ios">
+        <!-- Pushy iOS SDK -->
+        <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
+            <pods use-frameworks="true">
+                <pod name="Pushy" spec="~> 1.0.32" />
+            </pods>
+        </podspec>
+
         <!-- iOS Package -->
         <config-file target="config.xml" parent="/*">
             <feature name="PushyPlugin">
@@ -31,20 +41,6 @@
 
         <!-- Pushy Cordova Plugin -->
         <source-file src="src/ios/PushyPlugin.swift" />
-
-        <!-- Pushy iOS SDK Source Files -->
-        <!-- The official Pushy iOS SDK pod cannot be referenced directly due to lack of support from Cordova -->
-        <source-file src="src/ios/Pushy.swift" />
-        <source-file src="src/ios/PushyConfig.swift" />
-        <source-file src="src/ios/PushyEnvironment.swift" />
-        <source-file src="src/ios/PushyHTTP.swift" />
-        <source-file src="src/ios/PushyKeychain.swift" />
-        <source-file src="src/ios/PushyNetworkException.swift" />
-        <source-file src="src/ios/PushyPubSubException.swift" />
-        <source-file src="src/ios/PushyRegistrationException.swift" />
-        <source-file src="src/ios/PushyResponseException.swift" />
-        <source-file src="src/ios/PushySettings.swift" />
-        <source-file src="src/ios/PushySwizzler.swift" />
 
         <!-- APS environment injection -->
         <config-file target="*-Debug.plist" parent="aps-environment">

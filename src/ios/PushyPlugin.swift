@@ -6,6 +6,9 @@
 //  Copyright © 2018 Pushy. All rights reserved.
 //
 
+import Pushy
+import UserNotifications
+
 @objc(PushyPlugin) class PushyPlugin : CDVPlugin {
     var pushy: Pushy?
     var hasStartupNotification = false
@@ -23,6 +26,9 @@
 
     // Runs after execution of AppDelegate.didFinishLaunchingWithOptions()
     override func pluginInitialize () {
+        // Disable Capacitor/Cordova UNUserNotificationCenterDelegate
+        UNUserNotificationCenter.current().delegate = nil
+
         // Listen for startup notifications
         getPushyInstance().setNotificationHandler({ (data, completionHandler) in
             // Print notification payload data
@@ -82,8 +88,8 @@
     
     @objc(setNotificationListener:)
     func setNotificationListener(command: CDVInvokedUrlCommand) {
-        // Set notification handler
-        getPushyInstance().setNotificationHandler({ (data, completionHandler) in
+        // Define notification handler callback method
+        let notificationHandler: (([AnyHashable : Any], ((UIBackgroundFetchResult) -> Void)) -> Void) = { (data, completionHandler) in
             // Print notification payload data
             print("Received notification: \(data)")
             
@@ -109,12 +115,15 @@
             
             // Call the completion handler immediately on behalf of the app
             completionHandler(UIBackgroundFetchResult.newData)
-        })
+        }
+        
+        // Set notification handler
+        getPushyInstance().setNotificationHandler(notificationHandler)
         
         // Check for startup notification if set
         if self.hasStartupNotification {
             // Execute notification handler (pass in startup notification payload)
-            getPushyInstance().getNotificationHandler()?(self.startupNotification!, {(UIBackgroundFetchResult) in})
+            notificationHandler(self.startupNotification!, {(UIBackgroundFetchResult) in})
         }
     }
     
