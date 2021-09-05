@@ -83,6 +83,11 @@ public class PushyPlugin extends CordovaPlugin {
                     unsubscribe(args, callbackContext);
                 }
 
+                // Set Pushy App ID (override package name identification)
+                if (action.equals("setAppId")) {
+                    setAppId(args, callbackContext);
+                }
+
                 // Pushy Enterprise support
                 if (action.equals("setEnterpriseConfig")) {
                     setEnterpriseConfig(args, callbackContext);
@@ -251,6 +256,20 @@ public class PushyPlugin extends CordovaPlugin {
     private void isRegistered(CallbackContext callback) {
         // Resolve the callback with boolean result
         callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, Pushy.isRegistered(cordova.getActivity())));
+    }
+
+    private void setAppId(JSONArray args, CallbackContext callback) {
+        try {
+            // Attempt to set Pushy App ID
+            Pushy.setAppId(args.getString(0), cordova.getActivity());
+
+            // Resolve the callback with success
+            callback.success();
+        }
+        catch (Exception exc) {
+            // Reject the callback with the exception
+            callback.error(exc.getMessage());
+        }
     }
 
     private void setEnterpriseConfig(JSONArray args, CallbackContext callback) {

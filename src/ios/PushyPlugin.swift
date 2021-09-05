@@ -212,7 +212,21 @@ import UserNotifications
             )
         })
     }
-
+    
+    @objc(setAppId:)
+    func setAppId(command: CDVInvokedUrlCommand) {
+        // Set Pushy App ID (override bundle ID identification)
+        getPushyInstance().setAppId(command.arguments[0] as! String)
+        
+        // Always success
+        self.commandDelegate!.send(
+            CDVPluginResult(
+                status: CDVCommandStatus_OK
+            ),
+            callbackId: command.callbackId
+        )
+    }
+    
     @objc(setEnterpriseConfig:)
     func setEnterpriseConfig(command: CDVInvokedUrlCommand) {
         // Set Pushy Enterprise API endpoint

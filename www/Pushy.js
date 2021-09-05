@@ -55,6 +55,12 @@ var actions = [
         platforms: ['android', 'ios']
     },
     {
+        name: 'setAppId',
+        noError: true,
+        noCallback: true,
+        platforms: ['android', 'ios']
+    },
+    {
         name: 'setBadge',
         noError: true,
         noCallback: true,
