@@ -215,8 +215,15 @@ import UserNotifications
     
     @objc(setAppId:)
     func setAppId(command: CDVInvokedUrlCommand) {
-        // Set Pushy App ID (override bundle ID identification)
-        getPushyInstance().setAppId(command.arguments[0] as! String)
+        // No args?
+        if (command.arguments.count == 0) {
+            // Clear Pushy App ID (identify by bundle ID instead)
+            getPushyInstance().setAppId(nil)
+        }
+        else {
+            // Set Pushy App ID (override bundle ID identification)
+            getPushyInstance().setAppId(command.arguments[0] as? String)
+        }
         
         // Always success
         self.commandDelegate!.send(

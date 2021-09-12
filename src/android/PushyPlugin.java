@@ -259,9 +259,27 @@ public class PushyPlugin extends CordovaPlugin {
     }
 
     private void setAppId(JSONArray args, CallbackContext callback) {
+        // No args?
+        if (args.length() == 0) {
+            // Clear Pushy App ID (identify by package name instead)
+            Pushy.setAppId(null, cordova.getActivity());
+
+            // Resolve the callback with success
+            callback.success();
+            return;
+        }
+
         try {
-            // Attempt to set Pushy App ID
-            Pushy.setAppId(args.getString(0), cordova.getActivity());
+            // Extract appId from arguments
+            String appId = args.getString(0);
+
+            // Cordova converts JavaScript null and undefined to "null" (String), convert back to null
+            if (appId.equals("null")) {
+                appId = null;
+            }
+
+            // Set Pushy App ID (override package name identification)
+            Pushy.setAppId(appId, cordova.getActivity());
 
             // Resolve the callback with success
             callback.success();
