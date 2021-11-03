@@ -28,7 +28,7 @@ import UserNotifications
     override func pluginInitialize () {
         // Disable Capacitor/Cordova UNUserNotificationCenterDelegate
         UNUserNotificationCenter.current().delegate = nil
-
+        
         // Listen for startup notifications
         getPushyInstance().setNotificationHandler({ (data, completionHandler) in
             // Print notification payload data
@@ -41,6 +41,16 @@ import UserNotifications
             // You must call this completion handler when you finish processing
             // the notification (after fetching background data, if applicable)
             completionHandler(UIBackgroundFetchResult.newData)
+        })
+        
+        // Listen for startup notification click
+        getPushyInstance().setNotificationClickListener({ (data) in
+            // Print notification payload data
+            print("Startup notification click: \(data)")
+            
+            // Store for later
+            self.startupNotification = data
+            self.hasStartupNotification = true
         })
     }
     
@@ -136,6 +146,11 @@ import UserNotifications
         if self.hasStartupNotification {
             self.onNotificationClicked(data: self.startupNotification!)
         }
+        
+        // Handle iOS in-app banner notification tap event (iOS 10+)
+        getPushyInstance().setNotificationClickListener({ (data) in
+            self.onNotificationClicked(data: data)
+        })
     }
     
     func onNotificationClicked(data: [AnyHashable : Any]) {
@@ -223,6 +238,29 @@ import UserNotifications
         else {
             // Set Pushy App ID (override bundle ID identification)
             getPushyInstance().setAppId(command.arguments[0] as? String)
+        }
+        
+        // Always success
+        self.commandDelegate!.send(
+            CDVPluginResult(
+                status: CDVCommandStatus_OK
+            ),
+            callbackId: command.callbackId
+        )
+    }
+    
+    @objc(toggleInAppBanner:)
+    func toggleInAppBanner(command: CDVInvokedUrlCommand) {
+        // Get desird toggle value
+        let toggle = command.arguments[0] as! Bool
+        
+        // Enable/disable in-app notification banners (iOS 10+)
+        getPushyInstance().toggleInAppBanner(toggle)
+        
+        // Toggled off? (after previously being toggled on)
+        if (!toggle) {
+            // Reset UNUserNotificationCenterDelegate to nil to avoid displaying banner
+            UNUserNotificationCenter.current().delegate = nil
         }
         
         // Always success

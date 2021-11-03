@@ -89,6 +89,12 @@ var actions = [
         noCallback: true,
         platforms: ['android']
     },
+    {
+        name: 'toggleInAppBanner',
+        noError: true,
+        noCallback: true,
+        platforms: ['ios']
+    }
 ];
 
 // Expose native actions
