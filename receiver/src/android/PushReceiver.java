@@ -34,7 +34,7 @@ public class PushReceiver extends BroadcastReceiver {
 
         // Attempt to extract the notification bigtext from the "bigText" property of the data payload, optionally allows for expandable notifications
         if (intent.getStringExtra("bigText") != null) {
-            notificationTitle = intent.getStringExtra("bigText");
+            notificationBigText = intent.getStringExtra("bigText");
         }
         
         // Attempt to extract the notification id from the notificationId property of the data payload, this allows the backend to 'update' a notification instead of creating a new one
