@@ -18,6 +18,9 @@ public class PushReceiver extends BroadcastReceiver {
         // Notification title and text
         String notificationTitle = getAppName(context);
         String notificationText = "";
+        String notificationBigText = "";
+
+        int notificationId = 1;
 
         // Attempt to extract the notification text from the "message" property of the data payload
         if (intent.getStringExtra("message") != null) {
@@ -27,6 +30,16 @@ public class PushReceiver extends BroadcastReceiver {
         // Attempt to extract the notification title from the "title" property of the data payload (defaults to the app name if not present)
         if (intent.getStringExtra("title") != null) {
             notificationTitle = intent.getStringExtra("title");
+        }
+
+        // Attempt to extract the notification bigtext from the "bigText" property of the data payload, optionally allows for expandable notifications
+        if (intent.getStringExtra("bigText") != null) {
+            notificationTitle = intent.getStringExtra("bigText");
+        }
+        
+        // Attempt to extract the notification id from the notificationId property of the data payload, this allows the backend to 'update' a notification instead of creating a new one
+        if (intent.getIntExtra("notificationId") != null) {
+            notificationId = intent.getIntExtra("notificationId");
         }
 
         // Prepare a notification with vibration and sound
@@ -39,6 +52,11 @@ public class PushReceiver extends BroadcastReceiver {
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(getMainActivityPendingIntent(context, intent));
 
+        // Set the notification bigtext if it was sent
+        if (notificationBigText != "") {
+            builder.setStyle(new Notification.BigTextStyle().bigText(notificationBigText));
+        }
+
         // Get an instance of the NotificationManager service
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
@@ -46,7 +64,7 @@ public class PushReceiver extends BroadcastReceiver {
         Pushy.setNotificationChannel(builder, context);
 
         // Build the notification and display it
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(notificationId, builder.build());
     }
 
     private int getNotificationIcon(Context context) {
