@@ -26,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pushy-me/pushy-cordova.git"
+    "url": "git+https://github.com/pushy/pushy-cordova.git"
   },
   "author": "Pushy <support@pushy.me>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/pushy-me/pushy-cordova/issues"
+    "url": "https://github.com/pushy/pushy-cordova/issues"
   },
-  "homepage": "https://github.com/pushy-me/pushy-cordova#readme"
+  "homepage": "https://github.com/pushy/pushy-cordova#readme"
 }
