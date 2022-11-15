@@ -319,17 +319,26 @@ public class PushyPlugin extends CordovaPlugin {
     }
 
     private void setEnterpriseCertificate(JSONArray args, CallbackContext callback) {
-        try {
-            // Attempt to set custom certificate
-            Pushy.setEnterpriseCertificate(args.getString(0), cordova.getActivity());
+        // Default to null
+        String resourceName = null;
 
-            // Resolve the callback with success
-            callback.success();
+        try {
+            // Attempt to extract certificate resource name from first parameter (may be null)
+            resourceName = args.getString(0);
+
+            // Cordova converts JavaScript null and undefined to "null" (String), convert back to null
+            if (resourceName.equals("null")) {
+                resourceName = null;
+            }
+        } catch (JSONException e) {
+            // Null was passed in, disable the feature
         }
-        catch (Exception exc) {
-            // Reject the callback with the expection
-            callback.error(exc.getMessage());
-        }
+
+        // Attempt to set custom certificate resource name / disable the feature
+        Pushy.setEnterpriseCertificate(resourceName, cordova.getActivity());
+
+        // Resolve the callback with success
+        callback.success();
     }
 
     private void setNotificationIcon(JSONArray args) {
