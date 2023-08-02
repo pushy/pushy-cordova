@@ -297,8 +297,17 @@ public class PushyPlugin extends CordovaPlugin {
 
     private void setEnterpriseConfig(JSONArray args, CallbackContext callback) {
         try {
+            // Default to null
+            String apiEndpoint = null, String mqttEndpoint = null;
+
+            // Non-null, non-empty strings provided?
+            if (args.length() > 0 && !args.getString(0).equals("null") && !args.getString(0).trim().equals("")) {
+                apiEndpoint = args.getString(0);
+                mqttEndpoint = args.getString(1);
+            }
+                
             // Attempt to set Enterprise endpoints
-            Pushy.setEnterpriseConfig(args.getString(0), args.getString(1), cordova.getActivity());
+            Pushy.setEnterpriseConfig(apiEndpoint, mqttEndpoint, cordova.getActivity());
 
             // Resolve the callback with success
             callback.success();
@@ -311,8 +320,16 @@ public class PushyPlugin extends CordovaPlugin {
 
     private void setProxyEndpoint(JSONArray args, CallbackContext callback) {
         try {
+            // Default to null
+            String endpoint = null;
+
+            // Non-null, non-empty string provided?
+            if (args.length() > 0 && !args.getString(0).equals("null") && !args.getString(0).trim().equals("")) {
+                endpoint = args.getString(0);
+            }
+
             // Attempt to set proxy endpoint
-            Pushy.setProxyEndpoint(args.getString(0), cordova.getActivity());
+            Pushy.setProxyEndpoint(endpoint, cordova.getActivity());
 
             // Resolve the callback with success
             callback.success();

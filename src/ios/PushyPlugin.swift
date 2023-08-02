@@ -275,7 +275,7 @@ import UserNotifications
     @objc(setEnterpriseConfig:)
     func setEnterpriseConfig(command: CDVInvokedUrlCommand) {
         // Set Pushy Enterprise API endpoint
-        getPushyInstance().setEnterpriseConfig(apiEndpoint: command.arguments[0] as! String)
+        getPushyInstance().setEnterpriseConfig(apiEndpoint: command.arguments[0] as? String)
         
         // Always success
         self.commandDelegate!.send(
@@ -289,7 +289,7 @@ import UserNotifications
     @objc(setProxyEndpoint:)
     func setProxyEndpoint(command: CDVInvokedUrlCommand) {
         // Set proxy endpoint
-        getPushyInstance().setProxyEndpoint(proxyEndpoint: command.arguments[0] as! String)
+        getPushyInstance().setProxyEndpoint(proxyEndpoint: command.arguments[0] as? String)
         
         // Always success
         self.commandDelegate!.send(
