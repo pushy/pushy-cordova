@@ -88,6 +88,11 @@ public class PushyPlugin extends CordovaPlugin {
                     setAppId(args, callbackContext);
                 }
 
+                // Static IP / proxy support
+                if (action.equals("setProxyEndpoint")) {
+                    setProxyEndpoint(args, callbackContext);
+                }
+
                 // Pushy Enterprise support
                 if (action.equals("setEnterpriseConfig")) {
                     setEnterpriseConfig(args, callbackContext);
@@ -294,6 +299,20 @@ public class PushyPlugin extends CordovaPlugin {
         try {
             // Attempt to set Enterprise endpoints
             Pushy.setEnterpriseConfig(args.getString(0), args.getString(1), cordova.getActivity());
+
+            // Resolve the callback with success
+            callback.success();
+        }
+        catch (Exception exc) {
+            // Reject the callback with the exception
+            callback.error(exc.getMessage());
+        }
+    }
+
+    private void setProxyEndpoint(JSONArray args, CallbackContext callback) {
+        try {
+            // Attempt to set proxy endpoint
+            Pushy.setProxyEndpoint(args.getString(0), cordova.getActivity());
 
             // Resolve the callback with success
             callback.success();

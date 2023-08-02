@@ -72,6 +72,12 @@ var actions = [
         platforms: ['ios']
     },
     {
+        name: 'setProxyEndpoint',
+        noError: true,
+        noCallback: true,
+        platforms: ['android', 'ios']
+    },
+    {
         name: 'setEnterpriseConfig',
         noError: true,
         noCallback: true,

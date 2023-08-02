@@ -286,6 +286,20 @@ import UserNotifications
         )
     }
 
+    @objc(setProxyEndpoint:)
+    func setProxyEndpoint(command: CDVInvokedUrlCommand) {
+        // Set proxy endpoint
+        getPushyInstance().setProxyEndpoint(proxyEndpoint: command.arguments[0] as! String)
+        
+        // Always success
+        self.commandDelegate!.send(
+            CDVPluginResult(
+                status: CDVCommandStatus_OK
+            ),
+            callbackId: command.callbackId
+        )
+    }
+
     @objc(setBadge:)
     func setBadge(command: CDVInvokedUrlCommand) {
         // Set app badge to specific number
