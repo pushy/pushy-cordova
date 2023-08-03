@@ -298,7 +298,7 @@ public class PushyPlugin extends CordovaPlugin {
     private void setEnterpriseConfig(JSONArray args, CallbackContext callback) {
         try {
             // Default to null
-            String apiEndpoint = null, String mqttEndpoint = null;
+            String apiEndpoint = null, mqttEndpoint = null;
 
             // Non-null, non-empty strings provided?
             if (args.length() > 0 && !args.getString(0).equals("null") && !args.getString(0).trim().equals("")) {
