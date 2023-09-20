@@ -300,6 +300,20 @@ import UserNotifications
         )
     }
 
+    @objc(toggleAPNsConnectivityCheck:)
+    func toggleAPNsConnectivityCheck(command: CDVInvokedUrlCommand) {
+        // Toggle APNs connectivity check
+        getPushyInstance().toggleAPNsConnectivityCheck(command.arguments[0] as! Bool)
+        
+        // Always success
+        self.commandDelegate!.send(
+            CDVPluginResult(
+                status: CDVCommandStatus_OK
+            ),
+            callbackId: command.callbackId
+        )
+    }
+
     @objc(setBadge:)
     func setBadge(command: CDVInvokedUrlCommand) {
         // Set app badge to specific number

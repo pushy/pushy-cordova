@@ -100,6 +100,12 @@ var actions = [
         noError: true,
         noCallback: true,
         platforms: ['ios']
+    },
+    {
+        name: 'toggleAPNsConnectivityCheck',
+        noError: true,
+        noCallback: true,
+        platforms: ['ios']
     }
 ];
 
