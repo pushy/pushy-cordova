@@ -57,6 +57,7 @@ var actions = [
     {
         name: 'setAppId',
         noError: true,
+        noCallback: true,
         platforms: ['android', 'ios']
     },
     {
