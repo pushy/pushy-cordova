@@ -55,6 +55,9 @@
     <platform name="android">
         <!-- Pushy Android SDK -->
         <framework src="me.pushy:sdk:1.0.113" />
+        
+        <!-- AppCompat (Android X) -->
+        <framework src="androidx.appcompat:appcompat:1.0.2" />
 
         <!-- Pushy Permissions -->
         <config-file target="AndroidManifest.xml" parent="/*">
@@ -94,7 +97,7 @@
 
             <!-- Pushy Socket Service -->
             <!-- Do not modify - internal service -->
-            <service android:name="me.pushy.sdk.services.PushySocketService" android:stopWithTask="false" />
+            <service android:name="me.pushy.sdk.services.PushySocketService" android:foregroundServiceType="remoteMessaging" android:stopWithTask="false" />
 
             <!-- Pushy Job Service (added in Pushy SDK 1.0.35) -->
             <!-- Do not modify - internal service -->

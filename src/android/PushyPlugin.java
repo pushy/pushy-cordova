@@ -112,6 +112,11 @@ public class PushyPlugin extends CordovaPlugin {
                 if (action.equals("toggleFCM")) {
                     toggleFCM(args, callbackContext);
                 }
+
+                // Foreground service support
+                if (action.equals("toggleForegroundService")) {
+                    toggleForegroundService(args, callbackContext);
+                }
             }
         });
 
@@ -344,6 +349,20 @@ public class PushyPlugin extends CordovaPlugin {
         try {
             // Enable or disable FCM fallback support
             Pushy.toggleFCM(args.getBoolean(0), cordova.getActivity());
+
+            // Resolve the callback with success
+            callback.success();
+        }
+        catch (Exception exc) {
+            // Reject the callback with the exception
+            callback.error(exc.getMessage());
+        }
+    }
+
+    private void toggleForegroundService(JSONArray args, CallbackContext callback) {
+        try {
+            // Enable or disable foreground service
+            Pushy.toggleForegroundService(args.getBoolean(0), cordova.getActivity());
 
             // Resolve the callback with success
             callback.success();

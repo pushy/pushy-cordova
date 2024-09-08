@@ -31,6 +31,12 @@ var actions = [
         platforms: ['android']
     },
     {
+        name: 'toggleForegroundService',
+        noError: true,
+        noCallback: true,
+        platforms: ['android']
+    },
+    {
         // Leave for backward compatibility
         name: 'requestStoragePermission',
         platforms: ['android']
