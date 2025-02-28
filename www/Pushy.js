@@ -126,8 +126,8 @@ for (var i in actions) {
 }
 
 function executeNativeAction(action) {
-    // Get platform name dynamically
-    var platform = cordova.platformId;
+    // Get platform name dynamically (add support for Capacitor)
+    var platform = Capacitor != undefined ? Capacitor.getPlatform() : cordova.platformId;
 
     // Return custom function
     return function () {
